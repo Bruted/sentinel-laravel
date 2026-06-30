@@ -1,0 +1,40 @@
+{
+    "name": "redeyed/sentinel-laravel",
+    "description": "Redeyed Sentinel CAPTCHA + IP-reputation integration for Laravel. Free to install, inert until keys are set.",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "captcha",
+        "sentinel",
+        "redeyed",
+        "bot-protection",
+        "ip-reputation"
+    ],
+    "homepage": "https://redeyed.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Redeyed Corporation",
+            "email": "dev@redeyed.com",
+            "homepage": "https://redeyed.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "illuminate/support": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Redeyed\\LaravelSentinel\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Redeyed\\LaravelSentinel\\SentinelServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
