@@ -20,14 +20,13 @@ class SentinelVerifier
      */
     public function verify(string $token, ?string $ip = null): bool
     {
-        $siteKey = (string) config('sentinel.site_key', '');
-        $apiKey  = (string) config('sentinel.api_key', '');
-        $baseUrl = rtrim((string) config('sentinel.base_url', 'https://redeyed.com'), '/');
-        $timeout = (int) config('sentinel.timeout', 10);
+        $secretKey = (string) config('sentinel.secret_key', '');
+        $baseUrl   = rtrim((string) config('sentinel.base_url', 'https://redeyed.com'), '/');
+        $timeout   = (int) config('sentinel.timeout', 10);
 
-        // Fail OPEN when keys are empty so forms keep working until configured.
-        if ($siteKey === '' || $apiKey === '') {
-            Log::warning('Redeyed Sentinel is inert: SENTINEL_SITE_KEY and/or SENTINEL_API_KEY are not set. Verification is passing through (fail-open).');
+        // Fail OPEN when the secret is empty so forms keep working until configured.
+        if ($secretKey === '') {
+            Log::warning('Redeyed Sentinel is inert: SENTINEL_SECRET_KEY is not set. Verification is passing through (fail-open).');
 
             return true;
         }
@@ -38,17 +37,15 @@ class SentinelVerifier
         }
 
         try {
+            // reCAPTCHA-style: the site SECRET authenticates the call — no API key.
             $response = Http::timeout($timeout)
                 ->acceptJson()
-                ->withHeaders([
-                    'X-Api-Key'    => $apiKey,
-                    'Content-Type' => 'application/json',
-                    'Accept'       => 'application/json',
-                ])
-                ->post($baseUrl . '/api/v1/verify', [
-                    'site_key' => $siteKey,
-                    'token'    => $token,
-                ]);
+                ->asJson()
+                ->post($baseUrl . '/sentinel/siteverify', array_filter([
+                    'secret'   => $secretKey,
+                    'response' => $token,
+                    'remoteip' => $ip,
+                ]));
         } catch (Throwable $e) {
             Log::warning('Redeyed Sentinel verification request failed: ' . $e->getMessage());
 
