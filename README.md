@@ -29,24 +29,25 @@ php artisan vendor:publish --tag=sentinel-config
 
 ## Configuration
 
-Grab your keys from the **Redeyed Lab** panel:
+Grab both keys from the **Redeyed Lab → Sentinel → Sites** (each site has both):
 
-- **Site key** (public): *Developer → Sentinel Sites*
-- **API key** (secret): *Developer → API Keys*
+- **Site key** (public): renders the widget — safe in page markup.
+- **Secret key** (private): verifies tokens server-side — shown once when you
+  create the site.
 
 Add them to your `.env`:
 
 ```dotenv
-SENTINEL_SITE_KEY=your-public-site-key
-SENTINEL_API_KEY=your-secret-api-key
+SENTINEL_SITE_KEY=st_pub_your-public-site-key
+SENTINEL_SECRET_KEY=st_sec_your-secret-key
 
 # Optional — only change if you self-host Sentinel elsewhere
 # SENTINEL_BASE_URL=https://redeyed.com
 ```
 
-The `SENTINEL_API_KEY` is **secret** and stays server-side — it is only ever
-sent as the `X-Api-Key` header during verification and is never exposed to the
-browser.
+The `SENTINEL_SECRET_KEY` is **secret** and stays server-side — it is only ever
+sent to the verification endpoint and is never exposed to the browser. **No
+developer API key is required.**
 
 ## Usage
 
@@ -106,14 +107,13 @@ If verification fails the user sees:
 
 ## How verification works
 
-On submit, the package POSTs to `{BASE_URL}/api/v1/verify` with the
-`X-Api-Key` header and a JSON body of `{"site_key": "...", "token": "..."}`.
-The submission passes only when the response reports `success === true`
-(both the `{ "data": { "success": true }, "meta": {} }` envelope and a flat
-`{ "success": true }` shape are supported).
+On submit, the package POSTs to `{BASE_URL}/sentinel/siteverify` with a JSON body
+of `{"secret": "...", "response": "<token>"}` — reCAPTCHA-style. The site secret
+authenticates the call, so **no developer API key is involved**. The submission
+passes only when the response reports `success === true`.
 
-If keys are not configured, verification fails **open** and logs a warning so
-forms keep working until you finish setup.
+If the secret is not configured, verification fails **open** and logs a warning
+so forms keep working until you finish setup.
 
 ## License
 

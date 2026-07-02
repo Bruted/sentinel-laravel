@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Public key used to render the widget in the browser. Grab it from the
-    | Redeyed Lab panel under Developer → Sentinel Sites.
+    | Redeyed Lab panel under Sentinel → Sites.
     |
     */
 
@@ -16,16 +16,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Sentinel API Key (secret)
+    | Sentinel Secret Key (private)
     |--------------------------------------------------------------------------
     |
-    | Secret key used server-side to verify tokens. It is sent as the
-    | "X-Api-Key" header and must never be exposed to the browser. Grab it
-    | from the Redeyed Lab panel under Developer → API Keys.
+    | The per-site SECRET key. Used server-side to verify tokens against
+    | POST /sentinel/siteverify — reCAPTCHA-style, no developer API key needed.
+    | It must never be exposed to the browser. Grab it from the Redeyed Lab
+    | under Sentinel → Sites (it is shown once when you create the site).
     |
     */
 
-    'api_key' => env('SENTINEL_API_KEY'),
+    'secret_key' => env('SENTINEL_SECRET_KEY'),
 
     /*
     |--------------------------------------------------------------------------
