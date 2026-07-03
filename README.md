@@ -80,6 +80,40 @@ Prefer a directive? `@sentinel` does exactly the same thing:
 The widget loads the Sentinel script once per page and injects a hidden input
 named `sentinel-token` into your form.
 
+#### Customising the widget (optional)
+
+The widget accepts four **optional** settings. Leave them unset and nothing
+changes — the widget renders exactly as before (just `data-sitekey`). Each one
+is rendered as a `data-*` attribute only when non-empty.
+
+| Option       | `data-*`          | Values                                         |
+| ------------ | ----------------- | ---------------------------------------------- |
+| `widget`     | `data-widget`     | `behavioral` \| `checkbox` \| `press_hold` \| `image_pick` |
+| `theme`      | `data-theme`      | `auto` \| `light` \| `dark`                    |
+| `scheme`     | `data-scheme`     | colour scheme name                             |
+| `difficulty` | `data-difficulty` | `easy` \| `medium` \| `hard` \| `max`, or `1`–`6` |
+
+> **Note:** `difficulty` only **raises** the challenge strength above the
+> adaptive baseline. A risky visitor is always challenged hard regardless of
+> this value.
+
+Set them **per instance** via component props (these override the config
+defaults):
+
+```blade
+<x-sentinel-captcha widget="press_hold" theme="dark" difficulty="hard" />
+```
+
+…or set **project-wide defaults** in the published `config/sentinel.php`
+(or via `.env`):
+
+```dotenv
+SENTINEL_WIDGET=checkbox
+SENTINEL_THEME=auto
+SENTINEL_SCHEME=midnight
+SENTINEL_DIFFICULTY=medium
+```
+
 ### 2. Verify on the server
 
 Add the rule to your validation. Either use the rule class:

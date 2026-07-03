@@ -42,6 +42,35 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Widget Defaults (optional)
+    |--------------------------------------------------------------------------
+    |
+    | Project-wide defaults for the widget's appearance and challenge. Each is
+    | rendered as a data-* attribute on the widget only when non-empty, so
+    | leaving them null keeps the current behaviour (just data-sitekey). Any of
+    | these can be overridden per-instance via the component props, e.g.
+    | <x-sentinel-captcha widget="press_hold" theme="dark" difficulty="hard" />.
+    |
+    | - widget:     which challenge variant to render
+    |               (behavioral|checkbox|press_hold|image_pick).
+    | - theme:      auto|light|dark.
+    | - scheme:     colour scheme name.
+    | - difficulty: easy|medium|hard|max, or 1-6. NOTE: difficulty only RAISES
+    |               challenge strength above the adaptive baseline — a risky
+    |               visitor is always challenged hard regardless of this value.
+    |
+    */
+
+    'widget' => env('SENTINEL_WIDGET'),
+
+    'theme' => env('SENTINEL_THEME'),
+
+    'scheme' => env('SENTINEL_SCHEME'),
+
+    'difficulty' => env('SENTINEL_DIFFICULTY'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Verification Timeout
     |--------------------------------------------------------------------------
     |
