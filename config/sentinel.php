@@ -58,6 +58,7 @@ return [
     | - difficulty: easy|medium|hard|max, or 1-6. NOTE: difficulty only RAISES
     |               challenge strength above the adaptive baseline — a risky
     |               visitor is always challenged hard regardless of this value.
+    | - width:      fixed widget width, e.g. full, 100% or 340px.
     |
     */
 
@@ -68,6 +69,8 @@ return [
     'scheme' => env('SENTINEL_SCHEME'),
 
     'difficulty' => env('SENTINEL_DIFFICULTY'),
+
+    'width' => env('SENTINEL_WIDTH'),
 
     /*
     |--------------------------------------------------------------------------

@@ -92,6 +92,7 @@ is rendered as a `data-*` attribute only when non-empty.
 | `theme`      | `data-theme`      | `auto` \| `light` \| `dark`                    |
 | `scheme`     | `data-scheme`     | colour scheme name                             |
 | `difficulty` | `data-difficulty` | `easy` \| `medium` \| `hard` \| `max`, or `1`–`6` |
+| `width`      | `data-width`      | fixed widget width, e.g. `full`, `100%` or `340px` |
 
 > **Note:** `difficulty` only **raises** the challenge strength above the
 > adaptive baseline. A risky visitor is always challenged hard regardless of
@@ -101,7 +102,7 @@ Set them **per instance** via component props (these override the config
 defaults):
 
 ```blade
-<x-sentinel-captcha widget="press_hold" theme="dark" difficulty="hard" />
+<x-sentinel-captcha widget="press_hold" theme="dark" difficulty="hard" width="full" />
 ```
 
 …or set **project-wide defaults** in the published `config/sentinel.php`
@@ -112,6 +113,7 @@ SENTINEL_WIDGET=checkbox
 SENTINEL_THEME=auto
 SENTINEL_SCHEME=midnight
 SENTINEL_DIFFICULTY=medium
+SENTINEL_WIDTH=full
 ```
 
 ### 2. Verify on the server
